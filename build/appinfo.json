@@ -1,0 +1,47 @@
+{
+    "displayName": "TrioWay",
+    "uuid": "a8f65773-d707-4ddc-afa4-57ef076a60e8",
+    "projectType": "native",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+        "emery"
+    ],
+    "watchapp": {
+        "watchface": true
+    },
+    "messageKeys": {
+        "BG_COLOUR": 10000,
+        "HOUR_COLOUR": 10001,
+        "MINUTE_COLOUR": 10002,
+        "FACE_MODE": 10003,
+        "SHOW_DATE_TILES": 10004,
+        "HAND_COLOUR": 10005
+    },
+    "resources": {
+        "media": [
+            {
+                "type": "font",
+                "name": "FONT_DIGITAL_LARGE_72",
+                "file": "fonts/Arial Black.ttf",
+                "characterRegex": "[0-9]"
+            }
+        ]
+    },
+    "capabilities": [
+        "configurable"
+    ],
+    "name": "emery-colour-hands",
+    "shortName": "TrioWay",
+    "longName": "TrioWay",
+    "versionLabel": "1.0",
+    "companyName": "scottg",
+    "appKeys": {
+        "BG_COLOUR": 10000,
+        "HOUR_COLOUR": 10001,
+        "MINUTE_COLOUR": 10002,
+        "FACE_MODE": 10003,
+        "SHOW_DATE_TILES": 10004,
+        "HAND_COLOUR": 10005
+    }
+}

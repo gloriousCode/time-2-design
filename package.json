@@ -1,0 +1,46 @@
+{
+  "name": "emery-colour-hands",
+  "version": "1.0.0",
+  "author": "scottg",
+  "private": true,
+  "keywords": [
+    "pebble-app",
+    "emery",
+    "alloy"
+  ],
+  "dependencies": {},
+  "pebble": {
+    "displayName": "TrioWay",
+    "uuid": "a8f65773-d707-4ddc-afa4-57ef076a60e8",
+    "projectType": "native",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "emery"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [
+      "BG_COLOUR",
+      "HOUR_COLOUR",
+      "MINUTE_COLOUR",
+      "FACE_MODE",
+      "SHOW_DATE_TILES",
+      "HAND_COLOUR"
+    ],
+    "resources": {
+      "media": [
+        {
+          "type": "font",
+          "name": "FONT_DIGITAL_LARGE_72",
+          "file": "fonts/Arial Black.ttf",
+          "characterRegex": "[0-9]"
+        }
+      ]
+    },
+    "capabilities": [
+      "configurable"
+    ]
+  }
+}
