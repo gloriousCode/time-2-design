@@ -6,7 +6,7 @@ const isSandbox = false;
 
 // Array with absolute file path strings
 const entryFilenames = ["_pkjs_shared_additions.js",
-"/Users/scottg/go/src/github.com/thrasher-corp/pebbletime2/src/pkjs/index.js"];
+"/Users/scottg/go/src/github.com/gloriousCode/time-2-design/src/pkjs/index.js"];
 
 // folder path string
 const outputPath = "build";
@@ -18,10 +18,10 @@ const outputFilename = "pebble-js-app.js";
 const resolveRoots = ["/Users/scottg/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/common/include",
 "/Users/scottg/Library/Application Support/Pebble SDK/SDKs/current/sdk-core/pebble/common/tools/webpack",
 "/Users/scottg/Library/Application Support/Pebble SDK/SDKs/current/node_modules",
-"/Users/scottg/go/src/github.com/thrasher-corp/pebbletime2/build/js"];
+"/Users/scottg/go/src/github.com/gloriousCode/time-2-design/build/js"];
 
 // Object, { alias1: 'path1', ... }
-const resolveAliases = {"app_package.json": "/Users/scottg/go/src/github.com/thrasher-corp/pebbletime2/package.json"};
+const resolveAliases = {"app_package.json": "/Users/scottg/go/src/github.com/gloriousCode/time-2-design/package.json"};
 
 // null or Object with key 'sourceMapFilename'
 const sourceMapConfig = {"sourceMapFilename": "pebble-js-app.js.map"};

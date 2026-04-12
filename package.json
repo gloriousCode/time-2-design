@@ -25,8 +25,15 @@
       "BG_COLOUR",
       "HOUR_COLOUR",
       "MINUTE_COLOUR",
+      "H_HAND_COLOUR",
+      "M_HAND_COLOUR",
+      "C_BG_COLOUR",
+      "C_BORDER_COLOUR",
+      "C_TEXT_COLOUR",
       "FACE_MODE",
       "SHOW_DATE_TILES",
+      "SHOW_DATE_COMPLICATION",
+      "SHOW_HANDS",
       "HAND_COLOUR"
     ],
     "resources": {
