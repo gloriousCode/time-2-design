@@ -1,6 +1,6 @@
 {
   "name": "emery-colour-hands",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "scottg",
   "private": true,
   "keywords": [
@@ -40,9 +40,15 @@
       "media": [
         {
           "type": "font",
-          "name": "FONT_DIGITAL_LARGE_72",
-          "file": "fonts/Arial Black.ttf",
+          "name": "FONT_DIGITAL_LARGE_OPEN_84",
+          "file": "fonts/BebasNeue-Regular.ttf",
           "characterRegex": "[0-9]"
+        },
+        {
+          "type": "png",
+          "name": "IMAGE_MENU_ICON",
+          "file": "images/menu_icon.png",
+          "menuIcon": true
         }
       ]
     },

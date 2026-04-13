@@ -284,7 +284,7 @@ function buildConfigPageScript(presetJson, paletteJson, groupOrderJson, initialC
         var bg = document.getElementById("complicationBgColour");
         var border = document.getElementById("complicationBorderColour");
         var text = document.getElementById("complicationTextColour");
-        var supported = mode === "hands" || mode === "digital";
+        var supported = mode === "hands" || mode === "digital" || mode === "largedigital";
 
         if (!supported) {
           toggle.checked = false;
@@ -302,11 +302,11 @@ function buildConfigPageScript(presetJson, paletteJson, groupOrderJson, initialC
         var hourHandColour = document.getElementById("hourHandColour");
         var minuteHandColour = document.getElementById("minuteHandColour");
         var isAnalogue = mode === "hands";
-        var isDigital = mode === "digital" || mode === "largedigital";
+        var isLargeDigital = mode === "largedigital";
 
         showHands.disabled = !isAnalogue;
-        hourHandColour.disabled = !isAnalogue || !showHands.checked || isDigital;
-        minuteHandColour.disabled = !isAnalogue || !showHands.checked || isDigital;
+        hourHandColour.disabled = !isLargeDigital && (!isAnalogue || !showHands.checked);
+        minuteHandColour.disabled = !isLargeDigital && (!isAnalogue || !showHands.checked);
       }
 
       addGroupedOptions("bgColour");

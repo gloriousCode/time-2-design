@@ -8,15 +8,15 @@ const FACE_MODES = {
 
 const defaults = {
   bgColour: "#ffffaa",
-  hourColour: "#5555aa",
-  minuteColour: "#ff5500",
-  hourHandColour: "#000000",
-  minuteHandColour: "#000000",
-  complicationBgColour: "#ffffaa",
-  complicationBorderColour: "#ff5500",
-  complicationTextColour: "#5555aa",
+  hourColour: "#aaaa55",
+  minuteColour: "#555555",
+  hourHandColour: "#555555",
+  minuteHandColour: "#aaaa55",
+  complicationBgColour: "#ffffff",
+  complicationBorderColour: "#aaaa55",
+  complicationTextColour: "#555555",
   showHands: true,
-  showDateComplication: false,
+  showDateComplication: true,
   faceMode: FACE_MODES.HANDS,
   showDateTiles: false
 };
@@ -40,18 +40,6 @@ const PRESETS_BASE = {
     hourColour: "#aaaaff",
     minuteColour: "#aa55aa"
   },
-  blushPop: {
-    label: "Blush Pop",
-    bgColour: "#ffaaaa",
-    hourColour: "#ff55aa",
-    minuteColour: "#ff0055"
-  },
-  coralCandy: {
-    label: "Coral Candy",
-    bgColour: "#ff55aa",
-    hourColour: "#ff5555",
-    minuteColour: "#ffaaaa"
-  },
   mangoCream: {
     label: "Mango Cream",
     bgColour: "#ffaaaa",
@@ -63,12 +51,6 @@ const PRESETS_BASE = {
     bgColour: "#00aaaa",
     hourColour: "#0055aa",
     minuteColour: "#aaffaa"
-  },
-  glacierNavy: {
-    label: "Glacier Navy",
-    bgColour: "#aaffff",
-    hourColour: "#55aaff",
-    minuteColour: "#0055aa"
   },
   indigoOrchid: {
     label: "Indigo Orchid",
@@ -117,6 +99,36 @@ const PRESETS_BASE = {
     bgColour: "#ff5555",
     hourColour: "#aaaa55",
     minuteColour: "#ffaaaa"
+  },
+  fogSlate: {
+    label: "Fog Slate",
+    bgColour: "#aaaaaa",
+    hourColour: "#555555",
+    minuteColour: "#5555aa"
+  },
+  sageStone: {
+    label: "Sage Stone",
+    bgColour: "#aaffaa",
+    hourColour: "#55aa55",
+    minuteColour: "#555555"
+  },
+  coastalInk: {
+    label: "Coastal Ink",
+    bgColour: "#aaffff",
+    hourColour: "#5555aa",
+    minuteColour: "#005555"
+  },
+  sandGraphite: {
+    label: "Sand Graphite",
+    bgColour: "#ffffaa",
+    hourColour: "#aaaa55",
+    minuteColour: "#555555"
+  },
+  dustPlum: {
+    label: "Dust Plum",
+    bgColour: "#aa55aa",
+    hourColour: "#555555",
+    minuteColour: "#5555aa"
   }
 };
 
@@ -236,35 +248,46 @@ function pickDistinctColourByScore(used, scoreFn, fallback) {
   return bestColour;
 }
 
+function pickBestContrastColour(candidates, background, fallback, excluded) {
+  let best = null;
+  let bestScore = Number.NEGATIVE_INFINITY;
+  const excludeSet = excluded || new Set();
+
+  for (let i = 0; i < candidates.length; i += 1) {
+    const colour = candidates[i];
+
+    if (!colour || excludeSet.has(colour) || colour === background) {
+      continue;
+    }
+
+    const score = contrastRatio(colour, background);
+    if (score > bestScore) {
+      bestScore = score;
+      best = colour;
+    }
+  }
+
+  return best || fallback;
+}
+
 function extendPreset(key, preset) {
   const used = new Set([preset.bgColour, preset.hourColour, preset.minuteColour]);
   const seed = hashString(key);
   const baseColours = [preset.bgColour, preset.hourColour, preset.minuteColour];
+  const complicationBgColour = "#ffffff";
 
   const hourHandColour = pickDistinctColour(used, seed % EXTENSION_COLOUR_POOL.length);
   const minuteHandColour = pickDistinctColour(used, (seed + 3) % EXTENSION_COLOUR_POOL.length);
-  const complicationBgColour = pickDistinctColourByScore(
-    used,
-    function(colour) {
-      return minContrastAgainst(colour, baseColours);
-    },
-    "#000000"
+  const complicationTextColour = pickBestContrastColour(
+    [preset.minuteColour, preset.hourColour, preset.bgColour],
+    complicationBgColour,
+    preset.minuteColour
   );
-  const complicationTextColour = pickDistinctColourByScore(
-    used,
-    function(colour) {
-      return contrastRatio(colour, complicationBgColour);
-    },
-    "#ffffff"
-  );
-  const complicationBorderColour = pickDistinctColourByScore(
-    used,
-    function(colour) {
-      const againstBackground = contrastRatio(colour, complicationBgColour);
-      const againstFace = minContrastAgainst(colour, baseColours);
-      return Math.min(againstBackground, againstFace);
-    },
-    "#ffffff"
+  const complicationBorderColour = pickBestContrastColour(
+    [preset.hourColour, preset.bgColour, preset.minuteColour],
+    complicationBgColour,
+    preset.hourColour,
+    new Set([complicationTextColour])
   );
 
   return {

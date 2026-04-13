@@ -151,7 +151,7 @@ function buildConfigDataUrl(config, palette) {
 
     <div class="row">
       <label><input id="showDateComplication" type="checkbox" /> Show date complication (3 o'clock)</label>
-      <div class="help">Available in Analogue and Digital Small modes.</div>
+      <div class="help">Available in Analogue, Digital Small, and Digital Large modes.</div>
     </div>
 
     <div class="row">

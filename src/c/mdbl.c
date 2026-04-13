@@ -28,15 +28,15 @@ void init_state(void) {
   s_state.mode = FACE_MODE_HANDS;
   s_state.show_date_tiles = false;
   s_state.bg_colour = GColorFromRGB(255, 255, 170);
-  s_state.hour_colour = GColorFromRGB(85, 85, 170);
-  s_state.minute_colour = GColorFromRGB(255, 85, 0);
-  s_state.hour_hand_colour = GColorBlack;
-  s_state.minute_hand_colour = GColorBlack;
-  s_state.complication_bg_colour = s_state.bg_colour;
-  s_state.complication_border_colour = s_state.minute_colour;
-  s_state.complication_text_colour = s_state.hour_colour;
+  s_state.hour_colour = GColorFromRGB(170, 170, 85);
+  s_state.minute_colour = GColorFromRGB(85, 85, 85);
+  s_state.hour_hand_colour = GColorFromRGB(85, 85, 85);
+  s_state.minute_hand_colour = GColorFromRGB(170, 170, 85);
+  s_state.complication_bg_colour = GColorWhite;
+  s_state.complication_border_colour = GColorFromRGB(170, 170, 85);
+  s_state.complication_text_colour = GColorFromRGB(85, 85, 85);
   s_state.show_hands = true;
-  s_state.show_date_complication = false;
+  s_state.show_date_complication = true;
   s_state.cache_ready = false;
 
   apply_debug_state(&s_state);
@@ -164,7 +164,7 @@ static void init(void) {
   init_state();
   s_date_font = fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD);
   s_day_font = fonts_get_system_font(FONT_KEY_GOTHIC_24_BOLD);
-  s_large_digital_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DIGITAL_LARGE_72));
+  s_large_digital_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_DIGITAL_LARGE_OPEN_84));
   s_date_font_height = (int16_t)graphics_text_layout_get_content_size("8", s_date_font, GRect(0, 0, 40, 40), GTextOverflowModeWordWrap, GTextAlignmentCenter).h;
   s_day_font_height = (int16_t)graphics_text_layout_get_content_size("W", s_day_font, GRect(0, 0, 40, 40), GTextOverflowModeWordWrap, GTextAlignmentCenter).h;
 

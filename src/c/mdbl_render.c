@@ -12,6 +12,16 @@ static void draw_thick_line(GContext *ctx, GPoint start, GPoint end, uint8_t str
   graphics_draw_line(ctx, start, end);
 }
 
+static void draw_text_with_outline(
+  GContext *ctx,
+  const char *text,
+  GFont font,
+  GRect rect,
+  GColor text_colour,
+  GColor outline_colour,
+  int16_t outline_thickness
+);
+
 static bool point_in_bounds(GPoint point, GRect bounds) {
   return point.x >= bounds.origin.x &&
          point.y >= bounds.origin.y &&
@@ -152,7 +162,9 @@ static void draw_hands(GContext *ctx, GPoint centre, int16_t min_dimension, int3
   draw_thick_line(ctx, centre, minute_end, minute_outline_width, GColorBlack);
   draw_thick_line(ctx, centre, hour_end, HOUR_HAND_STROKE, s_state.hour_hand_colour);
   draw_thick_line(ctx, centre, minute_end, MINUTE_HAND_STROKE, s_state.minute_hand_colour);
+}
 
+static void draw_centre_cap(GContext *ctx, GPoint centre) {
   graphics_context_set_fill_color(ctx, GColorBlack);
   graphics_fill_circle(ctx, centre, 6);
   graphics_context_set_fill_color(ctx, s_state.minute_hand_colour);
@@ -181,9 +193,59 @@ static void draw_digital(GContext *ctx, GRect bounds) {
     graphics_context_set_fill_color(ctx, GColorWhite);
     graphics_fill_rect(ctx, grect_inset(tile, GEdgeInsets(1)), 3, GCornersAll);
 
-    graphics_context_set_text_color(ctx, digit_colour);
-    graphics_draw_text(ctx, text, font, tile, GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
+    draw_text_with_outline(ctx, text, font, tile, digit_colour, GColorBlack, 1);
   }
+}
+
+static void draw_text_with_outline(
+  GContext *ctx,
+  const char *text,
+  GFont font,
+  GRect rect,
+  GColor text_colour,
+  GColor outline_colour,
+  int16_t outline_thickness
+) {
+  graphics_context_set_text_color(ctx, outline_colour);
+  graphics_draw_text(
+    ctx,
+    text,
+    font,
+    grect_inset(rect, GEdgeInsets(-outline_thickness, 0, 0, 0)),
+    GTextOverflowModeWordWrap,
+    GTextAlignmentCenter,
+    NULL
+  );
+  graphics_draw_text(
+    ctx,
+    text,
+    font,
+    grect_inset(rect, GEdgeInsets(outline_thickness, 0, 0, 0)),
+    GTextOverflowModeWordWrap,
+    GTextAlignmentCenter,
+    NULL
+  );
+  graphics_draw_text(
+    ctx,
+    text,
+    font,
+    grect_inset(rect, GEdgeInsets(0, -outline_thickness, 0, 0)),
+    GTextOverflowModeWordWrap,
+    GTextAlignmentCenter,
+    NULL
+  );
+  graphics_draw_text(
+    ctx,
+    text,
+    font,
+    grect_inset(rect, GEdgeInsets(0, outline_thickness, 0, 0)),
+    GTextOverflowModeWordWrap,
+    GTextAlignmentCenter,
+    NULL
+  );
+
+  graphics_context_set_text_color(ctx, text_colour);
+  graphics_draw_text(ctx, text, font, rect, GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
 }
 
 static void draw_large_digital(GContext *ctx, GRect bounds) {
@@ -192,15 +254,12 @@ static void draw_large_digital(GContext *ctx, GRect bounds) {
   strftime(hh, sizeof(hh), "%H", &s_state.now);
   strftime(mm, sizeof(mm), "%M", &s_state.now);
 
-  const GRect top_text = GRect(0, bounds.size.h * 3 / 100, bounds.size.w, bounds.size.h * 45 / 100);
-  const GRect bottom_text = GRect(0, bounds.size.h * 52 / 100, bounds.size.w, bounds.size.h * 45 / 100);
+  const GRect top_text = GRect(0, 0, bounds.size.w, bounds.size.h * 49 / 100);
+  const GRect bottom_text = GRect(0, bounds.size.h * 50 / 100, bounds.size.w, bounds.size.h * 49 / 100);
   GFont smooth_font = s_large_digital_font ? s_large_digital_font : fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD);
 
-  graphics_context_set_text_color(ctx, s_state.hour_colour);
-  graphics_draw_text(ctx, hh, smooth_font, top_text, GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
-
-  graphics_context_set_text_color(ctx, s_state.minute_colour);
-  graphics_draw_text(ctx, mm, smooth_font, bottom_text, GTextOverflowModeWordWrap, GTextAlignmentCenter, NULL);
+  draw_text_with_outline(ctx, hh, smooth_font, top_text, s_state.hour_hand_colour, GColorBlack, 1);
+  draw_text_with_outline(ctx, mm, smooth_font, bottom_text, s_state.minute_hand_colour, GColorBlack, 1);
 }
 
 static void draw_tile_text(GContext *ctx, GRect tile, const char *text, GFont font, GColor text_colour) {
@@ -329,11 +388,14 @@ void update_canvas(Layer *layer, GContext *ctx) {
     draw_day_date_tiles(ctx, bounds);
   }
 
-  if (s_state.show_date_complication && s_state.mode != FACE_MODE_LARGE_DIGITAL) {
+  if (s_state.show_date_complication) {
     draw_date_complication(ctx, bounds, centre, s_state.cached_min_dimension);
   }
 
   if (s_state.mode == FACE_MODE_HANDS && s_state.show_hands) {
     draw_hands(ctx, centre, s_state.cached_min_dimension, hour, minute);
+    draw_centre_cap(ctx, centre);
+  } else if (s_state.mode == FACE_MODE_DIGITAL || s_state.mode == FACE_MODE_LARGE_DIGITAL) {
+    draw_centre_cap(ctx, centre);
   }
 }
