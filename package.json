@@ -1,12 +1,13 @@
 {
   "name": "emery-colour-hands",
   "version": "1.1.0",
-  "author": "scottg",
+  "author": "gloriousCode",
   "private": true,
   "keywords": [
     "pebble-app",
     "emery",
-    "alloy"
+    "alloy",
+    "gabbro"
   ],
   "dependencies": {},
   "pebble": {
@@ -16,7 +17,8 @@
     "sdkVersion": "3",
     "enableMultiJS": true,
     "targetPlatforms": [
-      "emery"
+      "emery",
+      "gabbro"
     ],
     "watchapp": {
       "watchface": true

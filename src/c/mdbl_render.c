@@ -2,6 +2,16 @@
 
 #include <stdlib.h>
 
+#if defined(PBL_PLATFORM_GABBRO)
+#define DAY_DATE_VERTICAL_CENTRE_PERCENT 75
+#define DAY_DATE_ROW_GAP_PERCENT 1
+#define DIGITAL_TILE_TOP_PERCENT 18
+#else
+#define DAY_DATE_VERTICAL_CENTRE_PERCENT 78
+#define DAY_DATE_ROW_GAP_PERCENT 2
+#define DIGITAL_TILE_TOP_PERCENT 11
+#endif
+
 void release_render_resources(void) {
   // No persistent render resources currently allocated.
 }
@@ -180,7 +190,8 @@ static void draw_digital(GContext *ctx, GRect bounds) {
   const int16_t gap = bounds.size.w * 15 / 1000;
   const int16_t total_width = (tile_width * 4) + (gap * 3);
   const int16_t left = (bounds.size.w - total_width) / 2;
-  const int16_t top = bounds.size.h * 11 / 100;
+  // Round gabbro needs extra top padding to keep tiles comfortably inside the arc.
+  const int16_t top = bounds.size.h * DIGITAL_TILE_TOP_PERCENT / 100;
   GFont font = fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK);
 
   for (int i = 0; i < 4; i++) {
@@ -281,9 +292,10 @@ static void draw_day_date_tiles(GContext *ctx, GRect bounds) {
   const int16_t date_tile_h = s_date_font_height + 8;
   const int16_t day_tile_h = s_day_font_height + 8;
   const int16_t gap = bounds.size.w * 2 / 100;
-  const int16_t row_gap = bounds.size.w * 2 / 100;
+  // Gabbro is round and benefits from a tighter lower stack to avoid edge crowding.
+  const int16_t row_gap = bounds.size.w * DAY_DATE_ROW_GAP_PERCENT / 100;
   const int16_t total_h = date_tile_h + row_gap + day_tile_h;
-  const int16_t top_y = (bounds.size.h * 78 / 100) - (total_h / 2);
+  const int16_t top_y = (bounds.size.h * DAY_DATE_VERTICAL_CENTRE_PERCENT / 100) - (total_h / 2);
   const int16_t top_total = (tile_w * 2) + gap;
   const int16_t top_left = (bounds.size.w - top_total) / 2;
 

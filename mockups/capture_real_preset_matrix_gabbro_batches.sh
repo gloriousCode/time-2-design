@@ -9,8 +9,8 @@ export PEBBLE_HOME PEBBLE_SDK_VERSION PEBBLE_TOOLCHAIN_BIN PATH
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-CAPTURE_SCRIPT="$PROJECT_ROOT/mockups/capture_real_preset_matrix_emery_build_override.js"
-LOCK_FILE="$PROJECT_ROOT/mockups/preset_matrix_emery_real/.capture.lock"
+CAPTURE_SCRIPT="$PROJECT_ROOT/mockups/capture_real_preset_matrix_gabbro_build_override.js"
+LOCK_FILE="$PROJECT_ROOT/mockups/preset_matrix_gabbro_real/.capture.lock"
 
 START_AT="${1:-1}"
 BATCH_SIZE="${2:-35}"
@@ -31,7 +31,7 @@ while [ "$current" -le "$TOTAL" ]; do
 
   pebble kill --force || true
   pkill -9 -f qemu-pebble || true
-  pkill -9 -f "pebble ping --emulator emery" || true
+  pkill -9 -f "pebble ping --emulator gabbro" || true
 
   mkdir -p "$PEBBLE_HOME"
   printf "{}\n" > "$PEBBLE_HOME/settings.json"

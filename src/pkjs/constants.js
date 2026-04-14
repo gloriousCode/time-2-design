@@ -7,13 +7,13 @@ const FACE_MODES = {
 };
 
 const defaults = {
-  bgColour: "#ffffaa",
-  hourColour: "#aaaa55",
+  bgColour: "#aaffaa",
+  hourColour: "#55aa55",
   minuteColour: "#555555",
-  hourHandColour: "#555555",
-  minuteHandColour: "#aaaa55",
+  hourHandColour: "#5555aa",
+  minuteHandColour: "#aa5500",
   complicationBgColour: "#ffffff",
-  complicationBorderColour: "#aaaa55",
+  complicationBorderColour: "#55aa55",
   complicationTextColour: "#555555",
   showHands: true,
   showDateComplication: true,

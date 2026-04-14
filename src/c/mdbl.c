@@ -27,13 +27,13 @@ void init_state(void) {
 
   s_state.mode = FACE_MODE_HANDS;
   s_state.show_date_tiles = false;
-  s_state.bg_colour = GColorFromRGB(255, 255, 170);
-  s_state.hour_colour = GColorFromRGB(170, 170, 85);
+  s_state.bg_colour = GColorFromRGB(170, 255, 170);
+  s_state.hour_colour = GColorFromRGB(85, 170, 85);
   s_state.minute_colour = GColorFromRGB(85, 85, 85);
-  s_state.hour_hand_colour = GColorFromRGB(85, 85, 85);
-  s_state.minute_hand_colour = GColorFromRGB(170, 170, 85);
+  s_state.hour_hand_colour = GColorFromRGB(85, 85, 170);
+  s_state.minute_hand_colour = GColorFromRGB(170, 85, 0);
   s_state.complication_bg_colour = GColorWhite;
-  s_state.complication_border_colour = GColorFromRGB(170, 170, 85);
+  s_state.complication_border_colour = GColorFromRGB(85, 170, 85);
   s_state.complication_text_colour = GColorFromRGB(85, 85, 85);
   s_state.show_hands = true;
   s_state.show_date_complication = true;
